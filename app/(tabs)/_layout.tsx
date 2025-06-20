@@ -10,7 +10,8 @@ import {
   User,
   Stethoscope,
   Upload,
-  Bell
+  Bell,
+  CreditCard
 } from 'lucide-react-native';
 
 export default function TabLayout() {
@@ -31,6 +32,11 @@ export default function TabLayout() {
             name: 'patients',
             title: 'Patients',
             icon: Users,
+          },
+          {
+            name: 'billing',
+            title: 'Billing',
+            icon: CreditCard,
           },
           {
             name: 'reports',
@@ -61,6 +67,11 @@ export default function TabLayout() {
             icon: FileText,
           },
           {
+            name: 'billing',
+            title: 'Billing',
+            icon: CreditCard,
+          },
+          {
             name: 'profile',
             title: 'Profile',
             icon: User,
@@ -82,6 +93,11 @@ export default function TabLayout() {
             name: 'reports',
             title: 'Reports',
             icon: FileText,
+          },
+          {
+            name: 'billing',
+            title: 'Billing',
+            icon: CreditCard,
           },
           {
             name: 'profile',
