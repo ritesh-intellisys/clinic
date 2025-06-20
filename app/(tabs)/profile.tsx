@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  Alert,
-} from 'react-native';
-import { useAuth } from '@/contexts/AuthContext';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar,
-  Settings,
-  LogOut,
-  Edit,
-  Bell,
-  Shield,
-  HelpCircle
-} from 'lucide-react-native';
 import Card from '@/components/ui/Card';
 import Header from '@/components/ui/Header';
+import { useAuth } from '@/contexts/AuthContext';
+import {
+  Bell,
+  Calendar,
+  Edit,
+  HelpCircle,
+  LogOut,
+  Mail,
+  MapPin,
+  Phone,
+  Settings,
+  Shield,
+  User
+} from 'lucide-react-native';
+import React, { useState } from 'react';
+import {
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 const profileSections = [
   {

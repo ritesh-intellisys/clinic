@@ -63,9 +63,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
+  try {
     setUser(null);
     await AsyncStorage.removeItem('user');
-  };
+  } catch (error) {
+    console.error('Failed to logout:', error);
+    throw error; // Re-throw to handle in the component
+  }
+};
 
   return (
     <AuthContext.Provider value={{ user, login, logout, isLoading }}>

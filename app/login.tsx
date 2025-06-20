@@ -1,26 +1,28 @@
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'expo-router';
+import { Shield, Stethoscope, User } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
   Alert,
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useAuth, UserRole } from '@/contexts/AuthContext';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
-import { Stethoscope, User, Shield } from 'lucide-react-native';
+
+type UserRole = 'receptionist' | 'doctor' | 'patient';
 
 const roleOptions = [
   { value: 'receptionist', label: 'Receptionist', icon: User, color: '#1976D2' },
   { value: 'doctor', label: 'Doctor', icon: Stethoscope, color: '#2E7D32' },
   { value: 'patient', label: 'Patient', icon: Shield, color: '#F57C00' },
-];
+] as const;
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -38,14 +40,22 @@ export default function LoginScreen() {
 
     setIsLoading(true);
     try {
+      if (!login) {
+        throw new Error('Login function not available');
+      }
+      
       const success = await login(email, password, selectedRole);
       if (success) {
         router.replace('/(tabs)');
       } else {
         Alert.alert('Error', 'Invalid credentials');
       }
-    } catch (error) {
-      Alert.alert('Error', 'Login failed. Please try again.');
+    } catch (error: unknown) {
+      let errorMessage = 'Login failed. Please try again.';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      Alert.alert('Error', errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -54,15 +64,23 @@ export default function LoginScreen() {
   return (
     <KeyboardAvoidingView 
       style={styles.container} 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
     >
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContent} 
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.header}>
           <Image 
             source={{ uri: 'https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&dpr=2' }}
             style={styles.headerImage}
+            resizeMode="cover"
           />
-          <View style={styles.overlay} />
+          <View style={StyleSheet.absoluteFillObject}>
+            <View style={styles.overlay} />
+          </View>
           <View style={styles.headerContent}>
             <Text style={styles.title}>MediCare</Text>
             <Text style={styles.subtitle}>Hospital Management System</Text>
@@ -78,25 +96,27 @@ export default function LoginScreen() {
             <View style={styles.roleOptions}>
               {roleOptions.map((role) => {
                 const IconComponent = role.icon;
+                const isSelected = selectedRole === role.value;
                 return (
                   <TouchableOpacity
                     key={role.value}
                     style={[
                       styles.roleOption,
-                      selectedRole === role.value && { 
+                      isSelected && { 
                         backgroundColor: role.color,
                         borderColor: role.color 
                       }
                     ]}
                     onPress={() => setSelectedRole(role.value as UserRole)}
+                    disabled={isLoading}
                   >
                     <IconComponent 
                       size={24} 
-                      color={selectedRole === role.value ? '#fff' : role.color} 
+                      color={isSelected ? '#fff' : role.color} 
                     />
                     <Text style={[
                       styles.roleText,
-                      selectedRole === role.value && { color: '#fff' }
+                      isSelected && { color: '#fff' }
                     ]}>
                       {role.label}
                     </Text>
@@ -110,14 +130,12 @@ export default function LoginScreen() {
             <Input
               placeholder="Email Address"
               value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
+              onChangeText={(text: string) => setEmail(text)}
             />
             <Input
               placeholder="Password"
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(text: string) => setPassword(text)}
               secureTextEntry
             />
           </View>
@@ -125,8 +143,7 @@ export default function LoginScreen() {
           <Button
             title={isLoading ? "Signing In..." : "Sign In"}
             onPress={handleLogin}
-            disabled={isLoading}
-            style={styles.loginButton}
+            // style={styles.loginButton}
           />
 
           <View style={styles.demoCredentials}>
@@ -155,10 +172,9 @@ const styles = StyleSheet.create({
   headerImage: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover',
   },
   overlay: {
-    ...StyleSheet.absoluteFillObject,
+    flex: 1,
     backgroundColor: 'rgba(25, 118, 210, 0.8)',
   },
   headerContent: {
