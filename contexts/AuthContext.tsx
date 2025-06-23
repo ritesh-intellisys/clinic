@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const mockUser: User = {
         id: Math.random().toString(36).substr(2, 9),
         name: role === 'receptionist' ? 'Ritesh Jawale' : 
-              role === 'doctor' ? 'Dr. Michael Chen' : 'John Smith',
+              role === 'doctor' ? 'Dr. Michael Chen' : 'Ajay Nagar',
         email,
         role,
         avatar: role === 'receptionist' ? 'https://images.pexels.com/photos/3823488/pexels-photo-3823488.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2' :

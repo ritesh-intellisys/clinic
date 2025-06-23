@@ -36,31 +36,31 @@ interface Report {
 const mockReports: Report[] = [
   {
     id: '1',
-    patientName: 'John Smith',
+    patientName: 'Ajay Nagar',
     reportType: 'Blood Test',
     fileName: 'blood_test_john_smith.pdf',
     uploadDate: '2024-01-15',
-    uploadedBy: 'Ritesh Johnson',
+    uploadedBy: 'Ritesh Jawale',
     fileSize: '2.3 MB',
     status: 'Reviewed'
   },
   {
     id: '2',
-    patientName: 'Ritesh Johnson',
+    patientName: 'Ritesh Jawale',
     reportType: 'X-Ray',
     fileName: 'chest_xray_Ritesh.jpg',
     uploadDate: '2024-01-12',
-    uploadedBy: 'Ritesh Johnson',
+    uploadedBy: 'Ritesh Jawale',
     fileSize: '4.1 MB',
     status: 'Pending'
   },
   {
     id: '3',
-    patientName: 'Michael Brown',
+    patientName: 'Akhay More',
     reportType: 'MRI Scan',
     fileName: 'brain_mri_michael.pdf',
     uploadDate: '2024-01-10',
-    uploadedBy: 'Ritesh Johnson',
+    uploadedBy: 'Ritesh Jawale',
     fileSize: '15.7 MB',
     status: 'Reviewed'
   },
@@ -112,7 +112,7 @@ export default function ReportsScreen() {
       fileName: uploadData.selectedFile.name,
       uploadDate: new Date().toISOString().split('T')[0],
       uploadedBy: user?.name || 'Unknown',
-      fileSize: `${(uploadData.selectedFile.size / (1024 * 1024)).toFixed(1)} MB`,
+      fileSize: `Rs.{(uploadData.selectedFile.size / (1024 * 1024)).toFixed(1)} MB`,
       status: 'Pending'
     };
 
@@ -146,7 +146,7 @@ export default function ReportsScreen() {
     <View style={styles.container}>
       <Header 
         title="Lab Reports" 
-        subtitle={`${filteredReports.length} reports`}
+        subtitle={`Rs.{filteredReports.length} reports`}
         rightComponent={
           canUpload ? (
             <TouchableOpacity 
@@ -172,7 +172,7 @@ export default function ReportsScreen() {
                   <View style={styles.reportDetails}>
                     <Text style={styles.reportType}>{report.reportType}</Text>
                     <Text style={styles.patientName}>
-                      {user?.role === 'patient' ? `Uploaded by ${report.uploadedBy}` : report.patientName}
+                      {user?.role === 'patient' ? `Uploaded by Rs.{report.uploadedBy}` : report.patientName}
                     </Text>
                     <View style={styles.reportMeta}>
                       <Calendar size={12} color="#666" />

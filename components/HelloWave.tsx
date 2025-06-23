@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
+    useAnimatedStyle,
+    useSharedValue,
+    withRepeat,
+    withSequence,
+    withTiming,
 } from 'react-native-reanimated';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -21,7 +21,7 @@ export function HelloWave() {
   }, [rotationAnimation]);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotationAnimation.value}deg` }],
+    transform: [{ rotate: `Rs.{rotationAnimation.value}deg` }],
   }));
 
   return (

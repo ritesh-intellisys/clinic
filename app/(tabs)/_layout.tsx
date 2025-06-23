@@ -1,17 +1,15 @@
+import { useAuth } from '@/contexts/AuthContext';
 import { Tabs } from 'expo-router';
+import {
+  CreditCard,
+  FileText,
+  Home,
+  Upload,
+  User,
+  Users
+} from 'lucide-react-native';
 import React from 'react';
 import { Platform } from 'react-native';
-import { useAuth } from '@/contexts/AuthContext';
-import { 
-  Home, 
-  Users, 
-  FileText, 
-  Calendar, 
-  User,
-  Stethoscope,
-  Upload,
-  Bell
-} from 'lucide-react-native';
 
 export default function TabLayout() {
   const { user } = useAuth();
@@ -31,6 +29,11 @@ export default function TabLayout() {
             name: 'patients',
             title: 'Patients',
             icon: Users,
+          },
+          {
+            name: 'billing',
+            title: 'Billing',
+            icon: CreditCard,
           },
           {
             name: 'reports',
@@ -61,6 +64,11 @@ export default function TabLayout() {
             icon: FileText,
           },
           {
+            name: 'billing',
+            title: 'Billing',
+            icon: CreditCard,
+          },
+          {
             name: 'profile',
             title: 'Profile',
             icon: User,
@@ -82,6 +90,11 @@ export default function TabLayout() {
             name: 'reports',
             title: 'Reports',
             icon: FileText,
+          },
+          {
+            name: 'billing',
+            title: 'Billing',
+            icon: CreditCard,
           },
           {
             name: 'profile',

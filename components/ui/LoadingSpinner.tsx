@@ -1,13 +1,11 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-  interpolate,
+    useAnimatedStyle,
+    useSharedValue,
+    withRepeat,
+    withTiming
 } from 'react-native-reanimated';
-import { useEffect } from 'react';
 
 export default function LoadingSpinner() {
   const rotation = useSharedValue(0);
@@ -22,7 +20,7 @@ export default function LoadingSpinner() {
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ rotate: `${rotation.value}deg` }],
+      transform: [{ rotate: `Rs.{rotation.value}deg` }],
     };
   });
 

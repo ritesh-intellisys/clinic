@@ -41,7 +41,7 @@ interface Prescription {
 const mockPrescriptions: Prescription[] = [
   {
     id: '1',
-    patientName: 'John Smith',
+    patientName: 'Ajay Nagar',
     doctorName: 'Dr. Michael Chen',
     date: '2024-01-15',
     medications: [
@@ -63,7 +63,7 @@ const mockPrescriptions: Prescription[] = [
   },
   {
     id: '2',
-    patientName: 'Ritesh Johnson',
+    patientName: 'Ritesh Jawale',
     doctorName: 'Dr. Michael Chen',
     date: '2024-01-12',
     medications: [
@@ -79,7 +79,7 @@ const mockPrescriptions: Prescription[] = [
   },
   {
     id: '3',
-    patientName: 'Michael Brown',
+    patientName: 'Akhay More',
     doctorName: 'Dr. Michael Chen',
     date: '2024-01-08',
     medications: [
@@ -169,7 +169,7 @@ export default function PrescriptionsScreen() {
     <View style={styles.container}>
       <Header 
         title="Prescriptions" 
-        subtitle={`${filteredPrescriptions.length} prescriptions`}
+        subtitle={`Rs.{filteredPrescriptions.length} prescriptions`}
         rightComponent={
           canCreatePrescription ? (
             <TouchableOpacity 

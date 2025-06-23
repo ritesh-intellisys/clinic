@@ -20,7 +20,53 @@ import {
   View
 } from 'react-native';
 
-const mockStats = {
+type ReceptionistStats = {
+  totalPatients: number;
+  todayAppointments: number;
+  pendingReports: number;
+  newRegistrations: number;
+};
+
+type DoctorStats = {
+  todayPatients: number;
+  pendingPrescriptions: number;
+  completedConsultations: number;
+  criticalAlerts: number;
+};
+
+type PatientStats = {
+  upcomingAppointments: number;
+  activePrescriptions: number;
+  labReports: number;
+  lastVisit: string;
+};
+
+type ReceptionistActivity = {
+  id: number;
+  action: string;
+  patient: string;
+  time: string;
+};
+
+type DoctorActivity = {
+  id: number;
+  action: string;
+  patient: string;
+  time: string;
+};
+
+type PatientActivity = {
+  id: number;
+  action: string;
+  doctor: string;
+  time: string;
+};
+
+const mockStats: {
+  receptionist: ReceptionistStats;
+  doctor: DoctorStats;
+  patient: PatientStats;
+} = {
   receptionist: {
     totalPatients: 156,
     todayAppointments: 12,
@@ -41,20 +87,24 @@ const mockStats = {
   },
 };
 
-const recentActivities = {
+const recentActivities: {
+  receptionist: ReceptionistActivity[];
+  doctor: DoctorActivity[];
+  patient: PatientActivity[];
+} = {
   receptionist: [
-    { id: 1, action: 'New patient registered', patient: 'John Doe', time: '10 min ago' },
-    { id: 2, action: 'Lab report uploaded', patient: 'Sarah Wilson', time: '25 min ago' },
-    { id: 3, action: 'Appointment scheduled', patient: 'Mike Johnson', time: '1 hour ago' },
+    { id: 1, action: 'New patient registered', patient: 'Santosh N', time: '10 min ago' },
+    { id: 2, action: 'Lab report uploaded', patient: 'Sara K', time: '25 min ago' },
+    { id: 3, action: 'Appointment scheduled', patient: 'Aniket R', time: '1 hour ago' },
   ],
   doctor: [
-    { id: 1, action: 'Prescription issued', patient: 'Emma Davis', time: '15 min ago' },
+    { id: 1, action: 'Prescription issued', patient: 'Rani M', time: '15 min ago' },
     { id: 2, action: 'Consultation completed', patient: 'Robert Brown', time: '45 min ago' },
     { id: 3, action: 'Lab results reviewed', patient: 'Lisa Anderson', time: '2 hours ago' },
   ],
   patient: [
     { id: 1, action: 'Prescription refilled', doctor: 'Dr. Smith', time: '1 day ago' },
-    { id: 2, action: 'Lab report available', doctor: 'Dr. Johnson', time: '3 days ago' },
+    { id: 2, action: 'Lab report available', doctor: 'Dr. Jawale', time: '3 days ago' },
     { id: 3, action: 'Appointment confirmed', doctor: 'Dr. Smith', time: '1 week ago' },
   ],
 };
@@ -64,12 +114,12 @@ export default function DashboardScreen() {
 
   if (!user) return null;
 
-  const stats = mockStats[user.role];
-  const activities = recentActivities[user.role];
-
   const renderStatsCards = () => {
+    if (!user) return null;
+
     switch (user.role) {
-      case 'receptionist':
+      case 'receptionist': {
+        const stats = mockStats.receptionist;
         return (
           <View style={styles.statsGrid}>
             <Card style={[styles.statCard, { backgroundColor: '#E3F2FD' }]}>
@@ -94,7 +144,9 @@ export default function DashboardScreen() {
             </Card>
           </View>
         );
-      case 'doctor':
+      }
+      case 'doctor': {
+        const stats = mockStats.doctor;
         return (
           <View style={styles.statsGrid}>
             <Card style={[styles.statCard, { backgroundColor: '#E3F2FD' }]}>
@@ -119,7 +171,9 @@ export default function DashboardScreen() {
             </Card>
           </View>
         );
-      case 'patient':
+      }
+      case 'patient': {
+        const stats = mockStats.patient;
         return (
           <View style={styles.statsGrid}>
             <Card style={[styles.statCard, { backgroundColor: '#E3F2FD' }]}>
@@ -144,10 +198,13 @@ export default function DashboardScreen() {
             </Card>
           </View>
         );
+      }
     }
   };
 
   const getQuickActions = () => {
+    if (!user) return [];
+    
     switch (user.role) {
       case 'receptionist':
         return [
@@ -172,14 +229,29 @@ export default function DashboardScreen() {
     }
   };
 
+  const getActivities = () => {
+    if (!user) return [];
+    
+    switch (user.role) {
+      case 'receptionist':
+        return recentActivities.receptionist;
+      case 'doctor':
+        return recentActivities.doctor;
+      case 'patient':
+        return recentActivities.patient;
+      default:
+        return [];
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Header 
-        title={`Welcome, ${user.name.split(' ')[0]}`}
-        subtitle={`${user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard`}
+      <Header
+        title={`Welcome, ${user?.name.split(' ')[0]}`}
+        subtitle={`${user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} Dashboard`}
         showNotification
       />
-      
+
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {renderStatsCards()}
 
@@ -200,13 +272,13 @@ export default function DashboardScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Recent Activity</Text>
           <Card style={styles.activityCard}>
-            {activities.map((activity) => (
+            {getActivities().map((activity) => (
               <View key={activity.id} style={styles.activityItem}>
                 <View style={styles.activityDot} />
                 <View style={styles.activityContent}>
                   <Text style={styles.activityAction}>{activity.action}</Text>
                   <Text style={styles.activityDetail}>
-                    {user.role === 'patient' ? activity.doctor : activity.patient}
+                    {'doctor' in activity ? activity.doctor : activity.patient}
                   </Text>
                   <Text style={styles.activityTime}>{activity.time}</Text>
                 </View>

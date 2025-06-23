@@ -42,7 +42,7 @@ interface Patient {
 const mockPatients: Patient[] = [
   {
     id: '1',
-    name: 'John Smith',
+    name: 'Ajay Nagar',
     age: 45,
     gender: 'Male',
     phone: '+1 234-567-8901',
@@ -54,11 +54,11 @@ const mockPatients: Patient[] = [
   },
   {
     id: '2',
-    name: 'Ritesh Johnson',
+    name: 'Ritesh Jawale',
     age: 32,
     gender: 'Female',
     phone: '+1 234-567-8902',
-    email: 'Ritesh.johnson@email.com',
+    email: 'Ritesh.Jawale@email.com',
     address: '456 Oak Ave, City',
     lastVisit: '2024-01-12',
     condition: 'Diabetes',
@@ -66,7 +66,7 @@ const mockPatients: Patient[] = [
   },
   {
     id: '3',
-    name: 'Michael Brown',
+    name: 'Akhay More',
     age: 28,
     gender: 'Male',
     phone: '+1 234-567-8903',
@@ -139,7 +139,7 @@ export default function PatientsScreen() {
     <View style={styles.container}>
       <Header 
         title="Patients" 
-        subtitle={`${filteredPatients.length} patients`}
+        subtitle={`Rs.{filteredPatients.length} patients`}
         rightComponent={
           canEdit ? (
             <TouchableOpacity 
