@@ -11,6 +11,7 @@ import {
 } from '@expo-google-fonts/roboto';
 import { AuthProvider } from '@/contexts/AuthContext'
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
+import '../global.css';
 
 SplashScreen.preventAutoHideAsync();
 
